@@ -1,0 +1,18 @@
+name: docker 
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: docker push into ecr
+      run: |
+        aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 487303169522.dkr.ecr.us-west-1.amazonaws.com
+        docker build -t basha .
+        docker tag basha:latest 487303169522.dkr.ecr.us-west-1.amazonaws.com/basha:latest
+        docker push 487303169522.dkr.ecr.us-west-1.amazonaws.com/basha:latest
+  
